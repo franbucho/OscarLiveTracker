@@ -17,42 +17,42 @@ class OscarTrackerApp:
         self.setup_ui()
         self.update_timer()
 
-        # Crear la segunda ventana
+        # Create the second window
         self.create_second_window()
 
     def setup_ui(self):
-        tk.Label(self.root, text="Premios Entregados", bg="#1e1e2e", fg="white", font=("Georgia", 16, "bold")).pack(pady=10)
+        tk.Label(self.root, text="Delivered Awards", bg="#1e1e2e", fg="white", font=("Georgia", 16, "bold")).pack(pady=10)
         
         self.delivered_listbox = tk.Listbox(self.root, bg="#1e1e2e", fg="white", font=("Georgia", 12), height=8, bd=0)
         self.delivered_listbox.pack(pady=10, fill=tk.X, padx=20)
         
-        tk.Button(self.root, text="Editar Premio Entregado", command=self.edit_delivered_award, bg="#f9e2af", fg="#1e1e2e", font=("Georgia", 14, "bold")).pack(pady=5)
+        tk.Button(self.root, text="Edit Delivered Award", command=self.edit_delivered_award, bg="#f9e2af", fg="#1e1e2e", font=("Georgia", 14, "bold")).pack(pady=5)
         
-        tk.Label(self.root, text="Próximos Premios", bg="#1e1e2e", fg="white", font=("Georgia", 16, "bold")).pack(pady=10)
+        tk.Label(self.root, text="Upcoming Awards", bg="#1e1e2e", fg="white", font=("Georgia", 16, "bold")).pack(pady=10)
         
         self.pending_listbox = tk.Listbox(self.root, bg="#1e1e2e", fg="white", font=("Georgia", 12), height=8, bd=0)
         self.pending_listbox.pack(pady=10, fill=tk.X, padx=20)
         
-        tk.Button(self.root, text="Mover a Entregados", command=self.move_to_delivered, bg="#89b4fa", fg="#1e1e2e", font=("Georgia", 14, "bold")).pack(pady=10)
+        tk.Button(self.root, text="Move to Delivered", command=self.move_to_delivered, bg="#89b4fa", fg="#1e1e2e", font=("Georgia", 14, "bold")).pack(pady=10)
         
         frame = tk.Frame(self.root, bg="#1e1e2e")
         frame.pack(pady=10)
         
-        tk.Label(frame, text="Agregar Premio Entregado:", bg="#1e1e2e", fg="white", font=("Georgia", 14, "bold")).grid(row=0, column=0, padx=10)
+        tk.Label(frame, text="Add Delivered Award:", bg="#1e1e2e", fg="white", font=("Georgia", 14, "bold")).grid(row=0, column=0, padx=10)
         self.delivered_entry = tk.Entry(frame, bg="#313244", fg="#f5c2e7", font=("Georgia", 12), width=30)
         self.delivered_entry.grid(row=0, column=1, padx=10)
         
-        tk.Label(frame, text="Agregar Premio Pendiente:", bg="#1e1e2e", fg="white", font=("Georgia", 14, "bold")).grid(row=0, column=2, padx=10)
+        tk.Label(frame, text="Add Pending Award:", bg="#1e1e2e", fg="white", font=("Georgia", 14, "bold")).grid(row=0, column=2, padx=10)
         self.pending_entry = tk.Entry(frame, bg="#313244", fg="#f5c2e7", font=("Georgia", 12), width=30)
         self.pending_entry.grid(row=0, column=3, padx=10)
         
-        tk.Button(self.root, text="Actualizar", command=self.update_awards, bg="#f38ba8", fg="#1e1e2e", font=("Georgia", 14, "bold")).pack(pady=10)
+        tk.Button(self.root, text="Update", command=self.update_awards, bg="#f38ba8", fg="#1e1e2e", font=("Georgia", 14, "bold")).pack(pady=10)
         
-        tk.Label(self.root, text="Mensaje en vivo:", bg="#1e1e2e", fg="white", font=("Georgia", 16, "bold")).pack(pady=10)
+        tk.Label(self.root, text="Live Message:", bg="#1e1e2e", fg="white", font=("Georgia", 16, "bold")).pack(pady=10)
         self.message_entry = tk.Entry(self.root, bg="#313244", fg="#f5c2e7", font=("Georgia", 12), width=50)
         self.message_entry.pack(pady=10)
 
-        self.timer_label = tk.Label(self.root, text="Tiempo en vivo: 00:00:00", bg="#1e1e2e", fg="white", font=("Georgia", 16, "bold"))
+        self.timer_label = tk.Label(self.root, text="Live Time: 00:00:00", bg="#1e1e2e", fg="white", font=("Georgia", 16, "bold"))
         self.timer_label.pack(pady=10)
 
     def update_awards(self):
@@ -69,14 +69,14 @@ class OscarTrackerApp:
             self.pending_listbox.insert(tk.END, pending_award)
             self.pending_entry.delete(0, tk.END)
         
-        messagebox.showinfo("Actualizar", "Premios actualizados. ¡Listo para el stream!")
+        messagebox.showinfo("Update", "Awards updated. Ready for the stream!")
 
     def move_to_delivered(self):
         try:
             selected_index = self.pending_listbox.curselection()[0]
             award = self.pending_listbox.get(selected_index)
             
-            winner = simpledialog.askstring("Ganador del Premio", f"¿Quién ganó el premio '{award}'?")
+            winner = simpledialog.askstring("Award Winner", f"Who won the '{award}' award?")
             if not winner:
                 return
             
@@ -88,111 +88,109 @@ class OscarTrackerApp:
             self.pending_awards.remove(award)
             self.delivered_awards.append(award_with_winner)
         except IndexError:
-            messagebox.showwarning("Seleccionar Premio", "Por favor, selecciona un premio para mover a entregados.")
+            messagebox.showwarning("Select Award", "Please select an award to move to delivered.")
 
     def edit_delivered_award(self):
         try:
             selected_index = self.delivered_listbox.curselection()[0]
             current_award = self.delivered_listbox.get(selected_index)
-            new_award = simpledialog.askstring("Editar Premio", f"Editar '{current_award}' a:")
+            new_award = simpledialog.askstring("Edit Award", f"Edit '{current_award}' to:")
             
             if new_award:
                 self.delivered_listbox.delete(selected_index)
                 self.delivered_listbox.insert(selected_index, new_award)
                 self.delivered_awards[selected_index] = new_award
         except IndexError:
-            messagebox.showwarning("Seleccionar Premio", "Por favor, selecciona un premio para editar.")
+            messagebox.showwarning("Select Award", "Please select an award to edit.")
 
     def update_timer(self):
         current_time = time.strftime("%H:%M:%S")
-        self.timer_label.config(text=f"Tiempo en vivo: {current_time}")
+        self.timer_label.config(text=f"Live Time: {current_time}")
         self.root.after(1000, self.update_timer)
 
     def create_second_window(self):
-        # Definir color dorado para la ventana de seguimiento en vivo
+        # Define golden color for the live tracking window
         golden_color = "#ffd700"
         
-        # Verificar si la imagen existe en la ruta
+        # Check if the image exists in the path
         file_path = r"C:\Users\Admin\Desktop\Code\Oscar  Live Tacker\PNG1.png"
         if os.path.exists(file_path):
-            self.bg_image = Image.open(file_path)  # Cargar la imagen
-            self.bg_image = self.bg_image.resize((900, 800))  # Ajustar el tamaño
-            self.bg_image = ImageTk.PhotoImage(self.bg_image)  # Convertir a formato que tkinter puede usar
+            self.bg_image = Image.open(file_path)  # Load the image
+            self.bg_image = self.bg_image.resize((900, 800))  # Adjust the size
+            self.bg_image = ImageTk.PhotoImage(self.bg_image)  # Convert to a format Tkinter can use
         else:
-            messagebox.showerror("Error", f"Imagen no encontrada en la ruta: {file_path}")
+            messagebox.showerror("Error", f"Image not found at path: {file_path}")
             return
 
-        # Crear una nueva ventana para mostrar la visualización en segundo monitor
+        # Create a new window for live visualization
         second_window = tk.Toplevel(self.root)
-        second_window.title("Visualización en Vivo")
+        second_window.title("Live Visualization")
         second_window.geometry("900x800")
         
-        # Crear un canvas y colocar la imagen de fondo
+        # Create a canvas and place the background image
         canvas = tk.Canvas(second_window, width=900, height=800)
         canvas.pack(fill="both", expand=True)
 
-        # Colocar la imagen de fondo
+        # Place the background image
         canvas.create_image(0, 0, anchor=tk.NW, image=self.bg_image)
 
-        # Crear las listas en la segunda ventana (sobre la imagen de fondo)
-        label_delivered = tk.Label(second_window, text="Premios Entregados", bg="#1e1e2e", fg=golden_color, font=("Georgia", 16, "bold"))
+        # Create the lists in the second window (on top of the background image)
+        label_delivered = tk.Label(second_window, text="Delivered Awards", bg="#1e1e2e", fg=golden_color, font=("Georgia", 16, "bold"))
         label_delivered.place(x=20, y=20)
 
         self.delivered_listbox_display = tk.Listbox(second_window, bg="#1e1e2e", fg=golden_color, font=("Georgia", 12), height=8, bd=0)
         self.delivered_listbox_display.place(x=20, y=60, width=860)
 
-        label_pending = tk.Label(second_window, text="Próximos Premios", bg="#1e1e2e", fg=golden_color, font=("Georgia", 16, "bold"))
+        label_pending = tk.Label(second_window, text="Upcoming Awards", bg="#1e1e2e", fg=golden_color, font=("Georgia", 16, "bold"))
         label_pending.place(x=20, y=300)
 
         self.pending_listbox_display = tk.Listbox(second_window, bg="#1e1e2e", fg=golden_color, font=("Georgia", 12), height=8, bd=0)
         self.pending_listbox_display.place(x=20, y=340, width=860)
 
-        # Crear el label para el mensaje en vivo
+        # Create the label for the live message
         self.live_message_label = tk.Label(second_window, text="", 
                                            bg="black", fg=golden_color, font=("Georgia", 16, "bold"), padx=10, pady=5)
         self.live_message_label.place(x=900, y=760, anchor="e")
 
-        # Llenar las listas en la segunda ventana
+        # Fill the lists in the second window
         self.update_visual_display(second_window)
 
-        # Actualizar la visualización cada 1 segundo
+        # Update the visualization every second
         second_window.after(1000, self.update_visual_display, second_window)
 
-        # Mover el mensaje en vivo
+        # Move the live message
         self.move_message(second_window)
 
     def update_visual_display(self, second_window):
-        # Actualizar la lista de premios entregados y pendientes en la segunda ventana
+        # Update the delivered and pending awards list in the second window
         self.delivered_listbox_display.delete(0, tk.END)
         self.pending_listbox_display.delete(0, tk.END)
 
-        # Llenar las listas con los premios entregados y pendientes
+        # Fill the lists with the delivered and pending awards
         for award in self.delivered_awards:
             self.delivered_listbox_display.insert(tk.END, award)
         
         for award in self.pending_awards:
             self.pending_listbox_display.insert(tk.END, award)
 
-        # Actualizar la visualización cada 1 segundo
+        # Update the visualization every second
         second_window.after(1000, self.update_visual_display, second_window)
 
     def move_message(self, second_window):
-        # Obtener el texto del mensaje en vivo
+        # Get the live message text
         live_message = self.message_entry.get()
         
-        # Si no hay mensaje, ocultar el label
+        # If there is no message, hide the label
         if not live_message:
             self.live_message_label.config(text="")
         else:
-            # Actualizar el texto del mensaje en vivo
+            # Update the live message text
             self.live_message_label.config(text=live_message)
-            # Mover el texto de derecha a izquierda
-            self.live_message_label.place(x=self.live_message_label.winfo_x() - 5, y=self.live_message_label.winfo_y())
         
-        second_window.after(100, self.move_message, second_window)
+        # Move the live message to the next second
+        second_window.after(1000, self.move_message, second_window)
 
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = OscarTrackerApp(root)
-    root.mainloop()
+# Running the main window
+root = tk.Tk()
+app = OscarTrackerApp(root)
+root.mainloop()
