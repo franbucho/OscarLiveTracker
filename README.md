@@ -1,28 +1,88 @@
-# Live Control Window for Small Production Teams
+# 🍔 Automatización de Reportes de Apps de Delivery para Restaurantes
 
-This project provides a lightweight, aesthetically pleasing user interface designed for small production teams and independent creators, particularly for live streams and podcasts. Many independent producers and podcasters who use software like OBS for live broadcasting often lack access to professional control panels or live tracking windows. This app offers a simple yet functional solution for displaying real-time results, controls, or statistics during live events.
+Este proyecto permite automatizar la descarga de reportes desde plataformas de delivery como **Uber Eats**, **Didi Food** y **Rappi**, ideal para restaurantes, franquicias o equipos contables que manejan múltiples cuentas. Usando bots personalizados y una interfaz gráfica intuitiva, esta herramienta reduce tareas repetitivas y mejora la eficiencia operativa.
 
-## Key Features:
-- **Translucent and Modern UI**: A clean design with translucent boxes and rounded corners, making it easy to display key information during live broadcasts.
-- **Customizable for Different Use Cases**: Ideal for small teams or events that need a simple interface to manage live data, results, or audience interactions.
-- **Accessible for Budget-Conscious Creators**: No need for expensive production tools. This is a free and easy-to-integrate solution for creators with limited resources.
-- **Scalable for Future Needs**: As your production grows, you can build upon this base to add more features like live social media integration, real-time feedback, or more complex controls.
+---
 
-## Why This Project Was Created:
-While watching live streams of podcasts and events, it became evident that many small production teams do not have access to the resources necessary to create professional-grade control and tracking windows for their live broadcasts. This app aims to bridge that gap, providing creators with the tools to enhance their live stream presentations and create a more engaging experience for their audience.
+## 🚀 ¿Qué hace esta app?
 
-It’s an ideal starting point for those looking to create high-quality, dynamic broadcasts without the need for expensive, complex equipment.
+- Automatiza el login y descarga de reportes de Uber, Didi y Rappi.
+- Permite seleccionar la fecha desde una interfaz gráfica simple.
+- Ejecuta los bots de forma individual o simultánea.
+- Lee credenciales desde un archivo Excel centralizado.
+- Ideal para ejecutarse manualmente o de forma programada (tareas automáticas diarias).
 
-## How to Use:
-1. Clone the repository or download the code.
-2. Open the HTML file in a browser to see the UI in action.
-3. Customize the content inside the boxes and titles as per your needs.
-4. Integrate this interface with your live broadcasting setup (OBS or other software) to use it during your live streams or podcasts.
+---
 
-## Future Enhancements:
-- Real-time data integration (e.g., live polls, social media feeds).
-- Customizable color schemes and fonts.
-- Interactive elements for audience engagement.
-- More control options for live producers.
+## 🧰 Tecnologías utilizadas
 
-Feel free to fork this project and contribute!
+- **Python 3.12**
+- **Tkinter** – Para la interfaz gráfica.
+- **Selenium** – Para la automatización web.
+- **Pandas** – Para leer y procesar archivos Excel.
+- **openpyxl** – Para soporte de archivos `.xlsx`.
+- **ChromeDriver** – Para automatizar Chrome.
+
+---
+
+## 🗂️ Estructura del proyecto
+
+automation/ ├── App.py # Script principal con la interfaz gráfica ├── bot_uber.py # Bot para automatizar Uber Eats ├── bot_didi.py # Bot para automatizar Didi Food ├── bot_rappi.py # Bot para automatizar Rappi ├── functions.py # Funciones comunes (leer Excel, helpers, etc.) ├── credentials/ │ └── credenciales.xlsx # Archivo con las credenciales de acceso
+
+
+---
+
+## 🧪 Cómo correr el proyecto
+
+1. Cloná este repositorio o descargá los archivos.
+
+2. Colocá tus credenciales en el archivo:
+
+   - `automation/credentials/credenciales.xlsx`
+   - Estructura: una hoja por app (`Uber`, `Didi`, `Rappi`) con columnas como `usuario`, `contraseña`, `sucursal`.
+
+3. Instala las dependencias necesarias:
+
+   En tu terminal:
+
+   ```bash
+   pip install -r requirements.txt
+
+
+Ejecutá la app:
+
+bash
+Copy
+Edit
+python automation/App.py
+📅 Ejecución automática
+Podés programar este script para que se ejecute todos los días usando el Programador de Tareas de Windows (taskschd.msc) y así descargar los reportes de forma desatendida.
+
+🔌 Integración con otros sistemas
+Los archivos descargados pueden ser consumidos por sistemas como Power BI, Excel, Google Sheets o incluso sistemas POS como Aloha.
+
+Es fácilmente adaptable para agregar nuevas plataformas de delivery o integraciones contables (por ejemplo, cálculo de comisiones o conciliaciones).
+
+📦 Requisitos
+Creá un archivo requirements.txt con el siguiente contenido (ya incluido en el repo):
+
+nginx
+Copy
+Edit
+selenium
+pandas
+openpyxl
+tk
+✨ Próximas funcionalidades
+Integración con dashboards de Power BI para visualizar ventas por sucursal.
+
+Consola web para gestión remota de bots.
+
+Reportes automáticos por correo electrónico.
+
+Comparativa entre plataformas.
+
+🤝 Contribuciones
+¿Querés agregar nuevas plataformas o funcionalidades? ¡Forkeá el repo y mandá tu PR!
+
+Desarrollado con ❤️ para simplificar procesos repetitivos en gastronomía.
